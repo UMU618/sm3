@@ -214,7 +214,9 @@ int HASH_FINAL(unsigned char *md, HASH_CTX *c)
     p -= HASH_CBLOCK;
     HASH_BLOCK_DATA_ORDER(c, p, 1);
     c->num = 0;
-    OPENSSL_cleanse(p, HASH_CBLOCK);
+    // UMU: Avoid linking to openssl dylib
+    //OPENSSL_cleanse(p, HASH_CBLOCK);
+    memset(p, 0, HASH_CBLOCK);
 
 #ifndef HASH_MAKE_STRING
 # error "HASH_MAKE_STRING must be defined!"
