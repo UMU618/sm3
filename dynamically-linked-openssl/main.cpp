@@ -22,7 +22,9 @@ int main(int argc, const char * argv[]) {
     return -1;
   }
 
-  const EVP_MD* sm3 = EVP_sm3();  // EVP_get_digestbynid(NID_sm3)
+  const EVP_MD* sm3 = EVP_sm3();
+  // Better using EVP_get_digestbyname() than EVP_get_digestbynid()
+  // const EVP_MD* sm3 = EVP_get_digestbyname(SN_sm3); // EVP_get_digestbynid(NID_sm3);
   assert(sm3 != nullptr);
   EVP_MD_CTX* sm3_ctx = EVP_MD_CTX_new();
   assert(sm3_ctx != nullptr);
