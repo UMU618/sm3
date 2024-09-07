@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 
 #include <boost/assert.hpp>
@@ -13,14 +13,12 @@ constexpr size_t kBlake2b512DigestLength{64};
 
 std::string ToHex(std::span<const uint8_t> bytes) {
   std::string hex;
-  hex.resize(bytes.size() * 2);
-  for (size_t pos = 0; const auto& b : bytes) {
-    std::memcpy(
-        hex.data() + pos,
-        fast_io::concat(fast_io::mnp::right(fast_io::mnp::hex(b), 2, '0'))
-            .data(),
-        2);
-    pos += 2;
+  hex.reserve(bytes.size() * 2);
+  fast_io::ostring_ref ref(&hex);
+  for (const auto& b : bytes) {
+    fast_io::print_freestanding(
+        ref, fast_io::mnp::right(fast_io::mnp::hex(static_cast<uint8_t>(b)), 2,
+                                 '0'));
   }
   return hex;
 }
